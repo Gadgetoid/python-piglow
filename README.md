@@ -1,6 +1,11 @@
-sn3218
+PiGlow
 ======
 
-This is a simple base driver for the sn3218, 18-channel i2c LED driver IC found on products like the PiGlow.
+Library for the Pimoroni Pibrella board, based on the sn3218 IC https://github.com/Gadgetoid/python-sn3218
+
+I went to great lengths to make this library code compatible with Jason (@Boeeerb) Barnett's PiGlow examples,
+he maintains by far the most complete codebase and documentation for the PiGlow here: https://github.com/Boeeerb/PiGlow
+
+
 
 
