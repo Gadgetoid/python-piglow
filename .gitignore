@@ -9,6 +9,6 @@ eggs/
 *.egg-info/
 .installed.cfg
 *.egg
-
+MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
