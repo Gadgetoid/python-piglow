@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 Copyright (c) 2014 Pimoroni
 
@@ -32,7 +33,7 @@ classifiers = ['Development Status :: 4 - Beta',
                'Topic :: Software Development',
                'Topic :: System :: Hardware']
 
-setup(name		= 'piglow',
+setup(name		= 'pimglow',
 	version		= '1.1dev',
 	author		= 'Philip Howard',
 	author_email	= 'phil@gadgetoid.com',
@@ -42,6 +43,6 @@ setup(name		= 'piglow',
 	keywords	= 'Raspberry Pi sn3218 PiGlow i2c',
 	url		= 'http://www.pimoroni.com',
 	classifiers     = classifiers,
-	py_modules	= ['piglow'],
+	py_modules	= ['pimglow'],
 	install_requires= ['sn3218 >= 1.1']
 )

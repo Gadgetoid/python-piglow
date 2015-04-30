@@ -1,23 +1,27 @@
-import sn3218
+import sn3218, atexit
 
 sn3218.enable()
 sn3218.enable_leds(0b111111111111111111)
 
+clear_on_exit = True
+compatibility_mode = False
+
 legs = [
-  [ 6, 7, 8, 5, 4, 9 ],
+  # r   o   y   g   b   w
+  [ 6,  7,  8,  5,  4,  9 ],
   [ 17, 16, 15, 13, 11, 10 ],
-  [ 0, 1, 2, 3, 14, 12 ]
+  [ 0,  1,  2,  3,  14, 12 ]
 ]
 
 values = [0] * 18
 
 colours = {
-  "red" : 0,
+  "red"    : 0,
   "orange" : 1,
   "yellow" : 2,
-  "green" : 3,
-  "blue" : 4,
-  "white" : 5
+  "green"  : 3,
+  "blue"   : 4,
+  "white"  : 5
 }
 
 white  = lambda v: ring(5,v)
@@ -26,6 +30,10 @@ green  = lambda v: ring(3,v)
 yellow = lambda v: ring(2,v)
 orange = lambda v: ring(1,v)
 red    = lambda v: ring(0,v)
+
+arm1   = lambda v: arm(0,v)
+arm2   = lambda v: arm(1,v)
+arm3   = lambda v: arm(2,v)
 
 led1   = lambda v: set(0,v)
 led2   = lambda v: set(1,v)
@@ -46,57 +54,69 @@ led16  = lambda v: set(15,v)
 led17  = lambda v: set(16,v)
 led18  = lambda v: set(17,v)			
 
+arm    = lambda x,y: leg(x - 1 if compatibility_mode else x,y)
+spoke  = lambda x,y: leg(x - 1 if compatibility_mode else x,y)
+
 def show():
+  '''
+  Output the contents of the values list to PiGlow.
+  '''
   sn3218.output(values)
 
 def set(leds, value):
+  '''
+  Set one or more LEDs with one or more values
+
+  Args:
+  * leds - A single index, or list of indexes of the LEDs to set
+  * values - A single value, or list of values to set
+  '''
+  global values
   if isinstance(leds, list):
     for led in leds:
       if isinstance(value, list):
-        values[leds[led]] = value[led]
+        values[leds[led] % 18] = (value[led] % 256)
       else:
-        values[led] = value
+        values[led % 18] = (value % 256)
   elif isinstance(leds, int):
-    values[leds] = value
+    leds = leds % 18
+    if isinstance(value, list):
+      values[leds:leds + len(value)] = map(lambda v: v % 256, value)
+      if len(values) > 18:
+        wrap = values[18:]
+        values = values[:18]
+        set(0, wrap)
+    else:
+      values[leds] = (value % 256)
   else:
     raise ValueError("Invalid LED/LEDs")
+  if compatibility_mode:
+    show()
 
-def ring(ring, intensity):
-  set([legs[0][ring], legs[1][ring], legs[2][ring]], intensity)
-
+def ring(ring, value):
+  '''
+  Set the brightness of a specific ring
+  '''
+  ring = ring % 7
+  set([legs[0][ring], legs[1][ring], legs[2][ring]], value)
 
 def leg_bar(leg, percentage):
   # 1530 = 6 * 255
   amount = int(1530.0 * percentage)
   for led in reversed(legs[leg]):
-    if amount >= 255:
-      set(led, 255)
-    elif amount > 0:
-      set(led,amount)
-    else:
-      set(led,0)
-    amount = amount - 255
+    set(led,255 if amount > 255 else amount)
+    amount = 0 if amount < 255 else amount - 255
 
 def leg(leg, intensity):
-  set(legs[leg], intensity)
-	
-def arm(arm, intensity):
-  set(legs[arm-1], intensity)
-
-def arm1(intensity):
-  arm(1, intensity)
-
-def arm2(intensity):
-  arm(2, intensity)
-
-def arm3(intensity):
-  arm(3, intensity)
+  set(legs[leg % 3], intensity)
 
 def led(led, intensity):
-  set(led-1, intensity)
+  if compatibility_mode:
+    led = led - 1
+  set(led, intensity)
 
 def single(leg, ring, intensity):
-  set(legs[leg][ring], intensity)
+  set(legs[leg % 3][ring % 7], intensity)
 
 def colour(colour, intensity):
   if not isinstance(colour, int):
@@ -115,3 +135,13 @@ def all(value):
 
 def clear():
   set(0, [0]*18)
+
+def off():
+  all(0)
+  show()
+
+def _exit():
+  if clear_on_exit:
+    off()
+
+atexit.register(_exit)

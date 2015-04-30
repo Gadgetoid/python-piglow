@@ -1,4 +1,6 @@
-import time, piglow
+#!/usr/bin/env python
+
+import time, pimglow as piglow
 
 while True:
   for x in range(100):
