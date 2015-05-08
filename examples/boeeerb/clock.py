@@ -5,12 +5,12 @@
 ##  Example by Jason - @Boeeerb     ##
 ######################################
 
-import pimglow as piglow
+import piglow
 from time import sleep
 from datetime import datetime
 
 
-piglow.compatibility_mode = True
+piglow.auto_update = True
 
 ### You can customise these settings ###
 

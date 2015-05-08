@@ -4,7 +4,7 @@ sn3218.enable()
 sn3218.enable_leds(0b111111111111111111)
 
 clear_on_exit = True
-compatibility_mode = False
+auto_update = False
 
 legs = [
   # r   o   y   g   b   w
@@ -54,8 +54,8 @@ led16  = lambda v: set(15,v)
 led17  = lambda v: set(16,v)
 led18  = lambda v: set(17,v)			
 
-arm    = lambda x,y: leg(x - 1 if compatibility_mode else x,y)
-spoke  = lambda x,y: leg(x - 1 if compatibility_mode else x,y)
+arm    = lambda x,y: leg(x - 1 if auto_update else x,y)
+spoke  = lambda x,y: leg(x - 1 if auto_update else x,y)
 
 def show():
   '''
@@ -90,7 +90,7 @@ def set(leds, value):
       values[leds] = (value % 256)
   else:
     raise ValueError("Invalid LED/LEDs")
-  if compatibility_mode:
+  if auto_update:
     show()
 
 def ring(ring, value):
@@ -111,7 +111,7 @@ def leg(leg, intensity):
   set(legs[leg % 3], intensity)
 
 def led(led, intensity):
-  if compatibility_mode:
+  if auto_update:
     led = led - 1
   set(led, intensity)
 

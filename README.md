@@ -10,20 +10,20 @@ To install on your Raspberry Pi, make sure you're running Raspbian, open LXTermi
 curl get.pimoroni.com/piglow | bash
 ```
 
-This script will install the library, called *pimglow* and copy the examples in this repository to `~/Pimoroni/piglow`
+This script will install the library and copy the examples in this repository to `~/Pimoroni/piglow`
 
 ## Backwards Compatibility
 
-The Pimglow Python library is designed to coincide with Jason's PiGlow library found here: https://github.com/Boeeerb/PiGlow
+The PiGlow Python library is designed to support examples written for Jason's PiGlow library found here: https://github.com/Boeeerb/PiGlow
 
 It's compatible with the examples, and we've ported some over to show you how it's done.
 
 ## Using PiGlow
 
-To use the pimglow library, you'll probably want to start by importing it:
+To use the piglow library, you'll probably want to start by importing it:
 
 ```python
-import pimglow as piglow
+import piglow
 ```
 
 Now, you can turn some LEDs on:
@@ -38,7 +38,19 @@ Nothing will happen yet, you've got to update PiGlow with your changes. Why? Bec
 piglow.show()
 ```
 
+A bug is a feature you can't turn off, however, so if you want to change that behaviour you can set it after importing piglow:
+
+```python
+piglow.auto_update = True
+```
+
+This will turn on auto update, refreshing the PiGlow after each change so you don't have to.
+
 ##Function Reference
+
+### Settings
+* `auto_update` - Set to True or False, determines if the PiGlow should automatically update after each LED change
+* `clear_on_exit` - Set to True or False, determines if the PiGlow should be cleared on exit
 
 ### Colours
 * `white( value from 0 to 255 )`

@@ -5,9 +5,9 @@
 ## Example by tng - @TommyBobbins               ##
 ##################################################
 
-import pimglow as piglow
+import piglow
 
-piglow.compatibility_mode = True
+piglow.auto_update = True
 
 from time import sleep
 import random

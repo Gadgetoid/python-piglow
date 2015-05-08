@@ -33,7 +33,7 @@ classifiers = ['Development Status :: 4 - Beta',
                'Topic :: Software Development',
                'Topic :: System :: Hardware']
 
-setup(name		= 'pimglow',
+setup(name		= 'piglow',
 	version		= '1.1dev',
 	author		= 'Philip Howard',
 	author_email	= 'phil@pimoroni.com',
@@ -43,6 +43,6 @@ setup(name		= 'pimglow',
 	keywords	= 'Raspberry Pi sn3218 PiGlow i2c',
 	url		= 'http://www.pimoroni.com',
 	classifiers     = classifiers,
-	py_modules	= ['pimglow'],
+	py_modules	= ['piglow'],
 	install_requires= ['sn3218 >= 1.1']
 )

@@ -5,10 +5,10 @@
 ##  Example by Jason - @Boeeerb                        ##
 #########################################################
 
-import pimglow as piglow
+import piglow
 from time import sleep
 
-piglow.compatibility_mode = True
+piglow.auto_update = True
 
 piglow.all(0)
 

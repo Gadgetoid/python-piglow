@@ -5,10 +5,11 @@
 ## Example by Jason - @Boeeerb                  ##
 ##################################################
 
-import pimglow as piglow
+import piglow
 from time import sleep
 
-piglow.compatibility_mode = True
+piglow.auto_update = True
+
 val = 20
 colour = 1
 
